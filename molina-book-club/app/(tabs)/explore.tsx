@@ -1,4 +1,10 @@
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TextInput, Button, FlatList} from 'react-native';
+
+const SearchRecs = () => { 
+  const [query, setQuery] = useState(''); 
+
+}
 
 export default function Tab() {
   return (
