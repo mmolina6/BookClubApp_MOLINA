@@ -22,7 +22,7 @@ useEffect(() => {
     setSearchQuery(query); 
 
   return (
-   <SafeAreaView style = {{flex:1, marginHorizontal: 20}}> 
+   <SafeAreaView style = {{flex:1, marginHorizontal: 30, marginVertical: 20}}> 
     <TextInput 
       placeholder='Search' 
       clearButtonMode = 'always'
@@ -46,6 +46,6 @@ const styles = StyleSheet.create({
         paddingVertical:10, 
         borderColor: 'skyblue',
         borderWidth: 1,
-        borderRadius: 8,
+        borderRadius: 10,
   }
 });
