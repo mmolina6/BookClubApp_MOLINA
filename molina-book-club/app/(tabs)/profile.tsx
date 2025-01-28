@@ -1,4 +1,6 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Button, FlatList, ActivityIndicator } from 'react-native';
+import { SearchBar } from 'react-native-screens';
+import { SafeAreaView } from 'react-native';
 
 export default function Tab() {
   return (
