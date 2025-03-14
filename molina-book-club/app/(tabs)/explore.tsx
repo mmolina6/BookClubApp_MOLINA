@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TextInput, Button, FlatList, ActivityIndicator}
 import { SearchBar } from 'react-native-screens';
 import { SafeAreaView } from 'react-native';
 
+
 export default function Tab() {
   const [searchQuery, setSearchQuery] = useState(""); 
   const [loading, setLoading] = useState(false);
@@ -20,19 +21,21 @@ useEffect(() => {
 
 const fetchData = async() => { 
   if (!searchQuery) return; 
-  const url_open_lib = `https:/openlibrary.org/subjects/${searchQuery}.json`
+  const url_open_lib = `https://openlibrary.org/subjects/${searchQuery}.json`
 
   setLoading(true); 
+  setError(null);
+
   try { 
     const response = await fetch (url_open_lib); 
     const data = await response.json(); 
-    if (response.ok) { 
-      setResults(data)
+    if (data.works && data.works.length > 0) { 
+      setResults(data.works)
     } else { 
-      alert('No response')
+      alert('No results');
     }
   } catch (error) { 
-    alert('Error: Could not fetch')
+    alert('Error: Could not fetch results');
   } finally { 
     setLoading(false);
   }
@@ -43,6 +46,7 @@ useEffect(() => {
     fetchData(); 
   }
 }, [searchQuery]); 
+
 
 /*
   const fetchData = async() => {
@@ -75,6 +79,13 @@ useEffect(() => {
     setLoading(false);
   } */ 
 //fetchData(); 
+const renderItems = ({item}) => ( 
+  <View style = {styles.item}>
+    <Text style = {styles.title}> {item.title} </Text>
+    <Text style={styles.author}>{item.authors?.[0]?.name || 'Unknown Author'}</Text>
+  </View>
+);
+
   return (
    <View style = {{flex:1, marginHorizontal: 30, marginVertical: 20}}> 
     <TextInput 
@@ -86,11 +97,20 @@ useEffect(() => {
       returnKeyType="search"
       onSubmitEditing={fetchData}
     />
+    <FlatList
+        data={results}
+        renderItem={renderItems}
+        keyExtractor={(item) => item.key}
+        style = {styles.list}
+    />
    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  list: { 
+    padding: 10
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -102,7 +122,30 @@ const styles = StyleSheet.create({
         borderColor: 'skyblue',
         borderWidth: 1,
         borderRadius: 10,
-  }
+  },
+  item: { 
+    backgroundColor: '#fff',
+    padding: 15,
+    marginVertical: 8,
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+  },
+  title: { 
+    fontSize: 18, 
+    fontWeight: 'bold'
+  },
+  author: { 
+    fontSize: 14, 
+    color: '#555'
+  },
+  center: { 
+    flex: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center',
+  },
 }); 
 
 
