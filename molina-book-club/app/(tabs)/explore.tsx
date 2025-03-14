@@ -31,6 +31,7 @@ const fetchData = async() => {
     const data = await response.json(); 
     if (data.works && data.works.length > 0) { 
       setResults(data.works)
+      
     } else { 
       alert('No results');
     }
@@ -47,7 +48,6 @@ useEffect(() => {
   }
 }, [searchQuery]); 
 
-
 /*
   const fetchData = async() => {
     const url_open_lib = `https:/openlibrary.org/subjects/${searchQuery}.json`
@@ -55,7 +55,7 @@ useEffect(() => {
   try { 
     const response = await fetch (url_open_lib); 
     const data = await response.json(); 
-    if (data.cod == 200) { 
+    if (data.code == 200) { 
       setResults(data);
     } else { 
       alert('Error: No response')
@@ -82,7 +82,7 @@ useEffect(() => {
 const renderItems = ({item}) => ( 
   <View style = {styles.item}>
     <Text style = {styles.title}> {item.title} </Text>
-    <Text style={styles.author}>{item.authors?.[0]?.name || 'Unknown Author'}</Text>
+    <Text style={styles.author}>{item.authors}</Text>
   </View>
 );
 
