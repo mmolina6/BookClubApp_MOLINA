@@ -7,6 +7,7 @@ type itemData = {
   title: string;
   cover_id: number;
   authors: string[];
+  id: string;
 }; 
 
 export default function Tab() {
@@ -107,7 +108,8 @@ const renderItems = ({item}:{item:itemData}) => (
     <FlatList
         data={results}
         renderItem={renderItems}
-        keyExtractor={(item) => item.cover_id.toString}
+        //keyExtractor={(item) => item.cover_id.toString}
+        keyExtractor={(item) => item.id}
         style = {styles.list}
     />
    </View>
