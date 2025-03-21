@@ -3,6 +3,11 @@ import { View, Text, StyleSheet, TextInput, Button, FlatList, ActivityIndicator}
 import { SearchBar } from 'react-native-screens';
 import { SafeAreaView } from 'react-native';
 
+type itemData = { 
+  title: string;
+  cover_id: number;
+  authors: string[];
+}; 
 
 export default function Tab() {
   const [searchQuery, setSearchQuery] = useState(""); 
@@ -31,7 +36,7 @@ const fetchData = async() => {
     const data = await response.json(); 
     if (data.works && data.works.length > 0) { 
       setResults(data.works)
-      
+
     } else { 
       alert('No results');
     }
@@ -79,10 +84,12 @@ useEffect(() => {
     setLoading(false);
   } */ 
 //fetchData(); 
-const renderItems = ({item}) => ( 
+
+//const renderItems = ({itemData:{ItemData:results}}) => (
+const renderItems = ({item}:{item:itemData}) => (
   <View style = {styles.item}>
     <Text style = {styles.title}> {item.title} </Text>
-    <Text style={styles.author}>{item.authors}</Text>
+    <Text style={styles.author}>{item.authors.join(',')}</Text>
   </View>
 );
 
@@ -100,7 +107,7 @@ const renderItems = ({item}) => (
     <FlatList
         data={results}
         renderItem={renderItems}
-        keyExtractor={(item) => item.key}
+        keyExtractor={(item) => item.cover_id.toString}
         style = {styles.list}
     />
    </View>
