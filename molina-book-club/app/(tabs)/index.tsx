@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
+import {firestore, auth} from './firebaseConfig'; 
 
 export default function Tab() {
   return (

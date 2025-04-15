@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, Button, FlatList, ActivityIndicator} from 'react-native';
-import { SearchBar } from 'react-native-screens';
-import { SafeAreaView } from 'react-native';
+import {TextInput, FlatList} from 'react-native';
+import {View, VirtualizedList, StyleSheet, Text, StatusBar} from 'react-native';
+import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 
 type itemData = { 
   title: string;
   cover_id: number;
   authors: string[];
-  id: string;
+  key: string;
 }; 
 
 export default function Tab() {
   const [searchQuery, setSearchQuery] = useState(""); 
   const [loading, setLoading] = useState(false);
-  const [results, setResults] = useState([]); 
+  //const [results, setResults] = useState([]); 
+  const [results, setResults] = useState<itemData[]>([]);
   const [error, setError] = useState(null); 
   //const [fullData, setFullData] = useState([]); 
 
@@ -34,7 +35,10 @@ const fetchData = async() => {
 
   try { 
     const response = await fetch (url_open_lib); 
-    const data = await response.json(); 
+    const data = await response.json();
+
+    //console.log(data);
+
     if (data.works && data.works.length > 0) { 
       setResults(data.works)
 
@@ -84,15 +88,29 @@ useEffect(() => {
   } finally { 
     setLoading(false);
   } */ 
-//fetchData(); 
+//fetchData();
+/* 
+const getItem = (data, index) => ({
+  id: Math.random().toString(12).substring(0),
+  title: `Item ${index+1}` 
+});
+
+const getItemCount = data => 50; */ 
+
+const getItemCount = (data: itemData[]) => data.length;
+
+const getItem = (data: itemData[], index: number) => data[index];
 
 //const renderItems = ({itemData:{ItemData:results}}) => (
-const renderItems = ({item}:{item:itemData}) => (
+
+const renderItem = ({item}:{item:itemData}) => (
   <View style = {styles.item}>
     <Text style = {styles.title}> {item.title} </Text>
     <Text style={styles.author}>{item.authors.join(',')}</Text>
   </View>
-);
+); 
+
+//console.log(results.map(item => item.key));
 
   return (
    <View style = {{flex:1, marginHorizontal: 30, marginVertical: 20}}> 
@@ -105,11 +123,15 @@ const renderItems = ({item}:{item:itemData}) => (
       returnKeyType="search"
       onSubmitEditing={fetchData}
     />
-    <FlatList
-        data={results}
-        renderItem={renderItems}
+    <VirtualizedList
+        data = {results}
+        initialNumToRender={5}
+        //data={results}
+        renderItem={renderItem}
         //keyExtractor={(item) => item.cover_id.toString}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.key}
+        getItemCount={getItemCount}
+        getItem={getItem}
         style = {styles.list}
     />
    </View>
