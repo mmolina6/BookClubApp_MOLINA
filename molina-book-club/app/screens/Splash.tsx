@@ -12,7 +12,7 @@ const Splash = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={require('../assets/images/logo_v2.png')} />
+      <Image style={styles.image} source={require('../../assets/images/logo_v2.png')} />
     </View>
   );
 };
