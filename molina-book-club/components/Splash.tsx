@@ -2,11 +2,14 @@ import React, { useEffect, useRef } from 'react';
 import { StyleSheet, View, Image } from 'react-native';
 
 const Splash = ({ navigation }) => {
-  useEffect(() => { 
-    setTimeout(() => { 
-      navigation.navigate('Home');
-    }, 3000)
-  }); 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigation.navigate('login');
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [navigation]); 
+
   return (
     <View style={styles.container}>
       <Image style={styles.image} source={require('../assets/images/logo_v2.png')} />
