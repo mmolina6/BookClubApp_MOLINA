@@ -7,7 +7,7 @@ import RootLayout from './_layout';
 
 const Stack = createNativeStackNavigator(); 
 
-export default function App() { 
+const App: React.FC = () => { 
   return ( 
     <NavigationContainer>
       <Stack.Navigator initialRouteName='login'>
@@ -18,5 +18,7 @@ export default function App() {
     </NavigationContainer>
 
   );
-}
+}; 
+
+export default App;
 

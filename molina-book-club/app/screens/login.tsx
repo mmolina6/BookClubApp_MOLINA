@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, ActivityIndicator, Button, KeyboardAvoidingView } from 'react-native';
 import { firebase_auth }from '../../firebaseConfig';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+//import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
 
-const login = () => {
+const login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);

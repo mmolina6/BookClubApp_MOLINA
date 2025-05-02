@@ -1,7 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import { StyleSheet, View, Image } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
 
-const Splash = ({ navigation }) => {
+
+type RootStackParamList = {
+  login: undefined;
+  Splash: undefined;
+  '(tabs)': undefined; 
+};
+
+const Splash: React.FC<StackScreenProps<RootStackParamList, 'Splash'>> = ({ navigation }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       navigation.navigate('login');
@@ -12,7 +20,7 @@ const Splash = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={require('../../assets/images/logo_v2.png')} />
+      <Image style={styles.image} source={require('../../assets/images/logo_novelNet.png')} />
     </View>
   );
 };
