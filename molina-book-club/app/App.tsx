@@ -4,15 +4,16 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import login from './screens/login'; 
 import Splash from './screens/Splash';
 import RootLayout from './_layout';
+import { useEffect, useState } from 'react';
 
 const Stack = createNativeStackNavigator(); 
 
 const App: React.FC = () => { 
   return ( 
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='login'>
-        <Stack.Screen name = 'login' component={login} options = {{headerShown: false}}/>
+      <Stack.Navigator initialRouteName='Splash'>
         <Stack.Screen name='Splash' component={Splash} options={{ headerShown: false }} />
+        <Stack.Screen name = 'login' component={login} options = {{headerShown: false}}/>
         <Stack.Screen name="(tabs)" component={RootLayout} options={{ headerShown: false }} /> 
       </Stack.Navigator>
     </NavigationContainer>
