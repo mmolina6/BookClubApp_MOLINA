@@ -12,7 +12,8 @@ type RootStackParamList = {
   '(tabs)': undefined; 
 }; */
 
-const Splash: React.FC<SplashProps> = ({ navigation }) => {
+const Splash: React.FC<SplashProps> = ({navigation}) => {
+  //const navigation = useNavigation();
   useEffect(() => {
     const timer = setTimeout(() => {
       if (navigation) { 
