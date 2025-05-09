@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, ActivityIndicator, Button, KeyboardAvoidingView } from 'react-native';
-import { firebase_auth }from '../../firebaseConfig';
+//import { auth } from '../../firebaseConfig';
+import auth from '@react-native-firebase/auth';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 //import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
 
@@ -8,12 +9,12 @@ const login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
-    const auth = firebase_auth;
+    //const auth = firebase_auth;
 
 const signIn = async() => {
     setLoading(true);
     try {
-        const response = await signInWithEmailAndPassword(auth, email, password);
+        const response = await auth().signInWithEmailAndPassword(email, password);
         console.log(response)
     } catch (error:any){
         console.log(error);
@@ -26,7 +27,7 @@ const signIn = async() => {
 const signUp = async() => {
     setLoading(true);
     try {
-        const response = await createUserWithEmailAndPassword(auth, email, password);
+        const response = await auth().createUserWithEmailAndPassword(email, password);
         console.log(response)
         alert('Confirmation email sent')
     } catch (error:any){

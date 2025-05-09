@@ -1,18 +1,11 @@
-import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore'
-import { getFunctions } from 'firebase/functions'; // For Cloud Functions
+import { initializeApp, getApp } from 'firebase/app';
+import { initializeAuth, getReactNativePersistence, getAuth } from 'firebase/auth';
+//import { getFirestore } from 'firebase/firestore'
+//import { getFunctions } from 'firebase/functions'; 
 //import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 //import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-
-// Import the functions you need from the SDKs you need
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDaOAt38_RWrNnju0sYBh98zIaWbyFmEV0",
   authDomain: "bookclubapp-7c4ac.firebaseapp.com",
@@ -22,13 +15,22 @@ const firebaseConfig = {
   appId: "1:924892205934:web:e3b27d8716f4a417df277f"
 };
 
-const firebase_app = initializeApp(firebaseConfig);
+//const firebase_app = initializeApp(firebaseConfig);
+//const firebase_auth = getAuth(firebase_app);
 
+let firebase_app;
+try {
+  firebase_app = getApp(); 
+} catch (e) {
+  firebase_app = initializeApp(firebaseConfig); 
+}
+
+/*
 const firebase_auth = initializeAuth(firebase_app, 
   { 
     persistence: getReactNativePersistence(AsyncStorage)
   }
-); 
+); */
 //export const auth = getAuth(firebase_app);
 //const firestore_db = getFirestore(firebase_app);
 
@@ -41,6 +43,4 @@ export const firestore = getFirestore(app);
 export const auth = getAuth(app); */
 
 export {firebase_app}; 
-//export const auth = getAuth(firebase_app);
-
-export {firebase_auth};
+//export const auth = firebase_auth;
