@@ -5,7 +5,7 @@ import auth from '@react-native-firebase/auth';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 //import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
 
-const login: React.FC = () => {
+const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -92,4 +92,4 @@ return (
 )
 }; 
 
-export default login;
+export default Login;

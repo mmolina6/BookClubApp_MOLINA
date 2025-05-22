@@ -1,30 +1,35 @@
 import React, { useEffect, useRef } from 'react';
 import { StyleSheet, View, Image, ActivityIndicator } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
-import { useNavigation} from 'expo-router';
+import { useRouter } from 'expo-router';
+//import { useNavigation} from 'expo-router';
 
-type SplashProps = StackScreenProps<any, 'Splash'>; 
+//type SplashProps = StackScreenProps<any, 'Splash'>;
 
 /*
 type RootStackParamList = {
-  login: undefined;
+  Login: undefined;
   Splash: undefined;
   '(tabs)': undefined; 
-}; */
+};
+
+type SplashProps = StackScreenProps<any, 'Splash'>;
+*/
 
 const Splash: React.FC<SplashProps> = ({navigation}) => {
+    const router = useRouter();
   //const navigation = useNavigation();
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (navigation) { 
-        navigation.replace('login');
-      } else { 
-        console.error('issue');
-      }
+    //  if (navigation && router.replace) {
+        router.replace('/screens/Login');
+    //  } else {
+    //    console.error('issue');
+      //}
     }, 3000);
 
     return () => clearTimeout(timer);
-  }, [navigation]); 
+  }, []);
 
   return (
     <View style={styles.container}>
