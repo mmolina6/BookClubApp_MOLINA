@@ -28,6 +28,11 @@ const signUp = async() => {
     setLoading(true);
     try {
         const response = await auth().createUserWithEmailAndPassword(email, password);
+       //const user = response.user;
+
+       // await firestore().collection('users').doc(user.uid).set({
+
+           // })
         console.log(response)
         alert('Confirmation email sent')
     } catch (error:any){

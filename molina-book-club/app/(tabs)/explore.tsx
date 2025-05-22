@@ -5,112 +5,74 @@ import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 
 type itemData = { 
   title: string;
-  cover_id: number;
-  authors: string[];
+  authors: {key: string; name: string;}[];
   key: string;
 }; 
 
 export default function Tab() {
   const [searchQuery, setSearchQuery] = useState(""); 
   const [loading, setLoading] = useState(false);
-  //const [results, setResults] = useState([]); 
   const [results, setResults] = useState<itemData[]>([]);
-  const [error, setError] = useState(null); 
-  //const [fullData, setFullData] = useState([]); 
-
-/*
-useEffect(() => { 
-  setLoading(true) 
-  //fetchData(url_open_lib); 
-}, []); */ 
-
-//const fetchData = async(url_open_lib: string | URL | Request) => {
+  const [error, setError] = useState(null);
 
 const fetchData = async() => { 
-  if (!searchQuery) return; 
-  const url_open_lib = `https://openlibrary.org/subjects/${searchQuery}.json`
+  if (!searchQuery.trim()) {
+      setResults([]);
+      return;
+      }
+  const url_open_lib = `https://openlibrary.org/subjects/${encodeURIComponent(searchQuery.toLowerCase())}.json`
 
   setLoading(true); 
   setError(null);
 
   try { 
-    const response = await fetch (url_open_lib); 
+    const response = await fetch (url_open_lib);
+
+    if (!response.ok) {
+        throw new Error (`HTTP error! status: ${response.status}`)}
+
     const data = await response.json();
 
-    //console.log(data);
+    if (data.works && data.works.length > 0) {
+        const f_results: itemData[] = data.works.map((work: any) => ({
+            title: work.title || 'No Title',
+            key: work.key,
+            authors: work.authors || [],
+            }));
+      setResults(f_results);
 
-    if (data.works && data.works.length > 0) { 
-      setResults(data.works)
-
-    } else { 
-      alert('No results');
+    } else {
+        setResults([]);
+        alert(`No results for the subject: "${searchQuery}"` );
     }
-  } catch (error) { 
-    alert('Error: Could not fetch results');
+  } catch (error: any) {
+      console.error('Error: Could not fetch results', error);
+      alert('Error: Could not fetch results' + error.message);
+      setResults([]);
   } finally { 
     setLoading(false);
   }
 };
 
-useEffect(() => { 
-  if (searchQuery) { 
-    fetchData(); 
-  }
-}, [searchQuery]); 
+useEffect(() => {
+    const handler = setTimeout(() => {
+        fetchData(); }, 800);
 
-/*
-  const fetchData = async() => {
-    const url_open_lib = `https:/openlibrary.org/subjects/${searchQuery}.json`
-    if (!searchQuery) return; 
-  try { 
-    const response = await fetch (url_open_lib); 
-    const data = await response.json(); 
-    if (data.code == 200) { 
-      setResults(data);
-    } else { 
-      alert('Error: No response')
-    }
-  } 
-  catch (error) {
-    alert('Error: Could not fetch data')
-  }; 
-
-  fetchData(); 
-
-/*
-    if (data.works && data.works.length > 0) { 
-      setData(data.works);
-    } else { 
-      alert('No results found'); 
-    }
-  } catch (error) { 
-    alert('Error: No response')
-  } finally { 
-    setLoading(false);
-  } */ 
-//fetchData();
-/* 
-const getItem = (data, index) => ({
-  id: Math.random().toString(12).substring(0),
-  title: `Item ${index+1}` 
-});
-
-const getItemCount = data => 50; */ 
+    return () => {
+        clearTimeout(handler);
+        };
+    }, [searchQuery]);
 
 const getItemCount = (data: itemData[]) => data.length;
 
 const getItem = (data: itemData[], index: number) => data[index];
 
-//const renderItems = ({itemData:{ItemData:results}}) => (
-
 const renderItem = ({item}:{item:itemData}) => (
   <View style = {styles.item}>
     <Text style = {styles.title}> {item.title} </Text>
-    <Text style={styles.author}>{item.authors.join(',')}</Text>
+    <Text style={styles.author}>{item.authors ? item.authors.map(a => a.name).join(', ') : 'Unknown Author'}</Text>
   </View>
 ); 
-
-//console.log(results.map(item => item.key));
 
   return (
    <View style = {{flex:1, marginHorizontal: 30, marginVertical: 20}}> 
@@ -124,11 +86,9 @@ const renderItem = ({item}:{item:itemData}) => (
       onSubmitEditing={fetchData}
     />
     <VirtualizedList
-        data = {results}
+        data={results}
         initialNumToRender={5}
-        //data={results}
         renderItem={renderItem}
-        //keyExtractor={(item) => item.cover_id.toString}
         keyExtractor={item => item.key}
         getItemCount={getItemCount}
         getItem={getItem}
