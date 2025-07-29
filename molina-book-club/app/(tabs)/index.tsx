@@ -11,6 +11,9 @@ export default function Tab() {
        <TouchableOpacity style={styles.button} onPress={() => console.log('Joining club')}>
         <Text style={styles.buttonText}>  Join a Book Club  </Text>
       </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={() => console.log('Open existing book clubs')}>
+        <Text style={styles.buttonText}>  Your Book Clubs  </Text>
+      </TouchableOpacity>
     </View>
   );
 }

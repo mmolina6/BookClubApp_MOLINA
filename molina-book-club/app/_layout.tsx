@@ -22,6 +22,7 @@ const RootLayout: React.FC = () => {
   return (
       <Stack>
         <Stack.Screen name='screens/Splash' options={{ headerShown: false }} />
+        <Stack.Screen name='Login' options={{headerShown: false}} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
   );

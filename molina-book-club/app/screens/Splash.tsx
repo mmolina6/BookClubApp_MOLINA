@@ -22,7 +22,7 @@ const Splash: React.FC<SplashProps> = ({navigation}) => {
   useEffect(() => {
     const timer = setTimeout(() => {
     //  if (navigation && router.replace) {
-        router.replace('/(tabs)/profile');
+        router.replace('/Login');
     //  } else {
     //    console.error('issue');
       //}
