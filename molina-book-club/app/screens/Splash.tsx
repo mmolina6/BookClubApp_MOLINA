@@ -21,11 +21,7 @@ const Splash: React.FC<SplashProps> = ({navigation}) => {
   //const navigation = useNavigation();
   useEffect(() => {
     const timer = setTimeout(() => {
-    //  if (navigation && router.replace) {
         router.replace('/Login');
-    //  } else {
-    //    console.error('issue');
-      //}
     }, 3000);
 
     return () => clearTimeout(timer);
